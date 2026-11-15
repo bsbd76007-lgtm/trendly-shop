@@ -1,0 +1,10 @@
+node_modules/
+dist/
+user/api/.env
+user/api/data/orders.json
+user/api/uploads/
+user/photo-originals/
+.DS_Store
+user/originals-backup/
+user/api/data/*.backup-*.json
+*.tmp

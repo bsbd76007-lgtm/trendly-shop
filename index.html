@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="hy">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trendly Shop — ոճային հագուստ Երևանում</title>
+  <meta name="description" content="Trendly Shop — բաճկոններ, հուդիներ, կոշիկ և աքսեսուարներ Երևանում։ Առաքում ՀՀ ողջ տարածքում։">
+  <link rel="icon" href="assets/img/logo.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Armenian:wdth,wght@62.5..100,400..900&family=Noto+Sans:wdth,wght@62.5..100,400..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip" href="#catalog">Skip to catalog</a>
+
+  <header class="top">
+    <div class="wrap top__row">
+      <a class="logo" href="#" aria-label="Trendly Shop">
+        <span class="logo__mark"><img src="assets/img/logo.jpg" alt="" onerror="this.remove()"><span>T</span></span>
+        <span class="logo__word">Trendly<small>shop</small></span>
+      </a>
+      <nav class="nav" aria-label="Main">
+        <a href="#catalog" data-i18n="nav_catalog">Կատալոգ</a>
+        <a href="#delivery" data-i18n="nav_delivery">Առաքում</a>
+        <a href="#contact" data-i18n="nav_contact">Կապ</a>
+      </nav>
+      <div class="top__tools">
+        <div class="lang" role="group" aria-label="Language">
+          <button type="button" data-lang="hy">ՀԱՅ</button>
+          <button type="button" data-lang="ru">РУС</button>
+          <button type="button" data-lang="en">ENG</button>
+        </div>
+        <button class="cart-btn" type="button" id="cartOpen" aria-haspopup="dialog">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 7a3 3 0 0 1 6 0" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+          <span class="sr" data-i18n="cart">Զամբյուղ</span>
+          <span class="cart-btn__count" id="cartCount">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap hero__grid">
+        <div class="hero__copy">
+          <h1 data-i18n="hero_title">Ոճային հագուստ Երևանում</h1>
+          <p data-i18n="hero_text"></p>
+          <div class="hero__actions">
+            <a class="btn btn--gold" href="#catalog" data-i18n="hero_cta">Դիտել կատալոգը</a>
+            <a class="btn btn--ghost" id="heroIg" target="_blank" rel="noopener" data-i18n="hero_ig">Instagram</a>
+          </div>
+        </div>
+
+        <aside class="board" aria-labelledby="boardTitle">
+          <div class="board__head">
+            <h2 id="boardTitle" data-i18n="board_title">Վաճառում ենք</h2>
+            <span class="board__cur">AMD</span>
+          </div>
+          <ol class="board__list" id="board"></ol>
+          <a class="board__all" href="#catalog" data-i18n="board_all">Ամբողջ գնացուցակը</a>
+        </aside>
+      </div>
+    </section>
+
+    <section class="catalog" id="catalog">
+      <div class="wrap">
+        <div class="catalog__head">
+          <h2 data-i18n="catalog_title">Կատալոգ</h2>
+          <div class="chips" id="chips" role="tablist"></div>
+        </div>
+        <div class="grid" id="grid"></div>
+      </div>
+    </section>
+
+    <section class="ig" id="instagram">
+      <div class="wrap">
+        <div class="ig__head">
+          <h2 data-i18n="ig_title">Նորույթներ Instagram-ում</h2>
+          <a class="btn btn--ink" id="igFollow" target="_blank" rel="noopener"><span data-i18n="ig_follow">Հետևել</span> <span class="ig__handle"></span></a>
+        </div>
+        <div class="ig__grid" id="igGrid"></div>
+      </div>
+    </section>
+
+    <section class="how" id="delivery">
+      <div class="wrap">
+        <h2 data-i18n="del_title">Ինչպես պատվիրել</h2>
+        <ol class="how__steps">
+          <li><h3 data-i18n="del_1_t"></h3><p data-i18n="del_1"></p></li>
+          <li><h3 data-i18n="del_2_t"></h3><p data-i18n="del_2"></p></li>
+          <li><h3 data-i18n="del_3_t"></h3><p data-i18n="del_3"></p></li>
+        </ol>
+        <p class="how__note" data-i18n="returns"></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot" id="contact">
+    <div class="wrap foot__row">
+      <div>
+        <p class="foot__brand">Trendly Shop</p>
+        <p data-i18n="footer_city">Երևան, Հայաստան</p>
+      </div>
+      <ul class="foot__links" id="footLinks"></ul>
+    </div>
+  </footer>
+
+  <!-- Cart drawer -->
+  <div class="scrim" id="scrim" hidden></div>
+  <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" hidden>
+    <div class="drawer__head">
+      <h2 id="drawerTitle" data-i18n="cart">Զամբյուղ</h2>
+      <button class="icon-btn" type="button" id="cartClose" data-i18n-label="close" aria-label="Close">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+
+    <div class="drawer__body" id="cartView">
+      <ul class="lines" id="lines"></ul>
+      <p class="empty" id="empty" data-i18n="cart_empty"></p>
+    </div>
+
+    <form class="drawer__body checkout" id="checkoutView" hidden novalidate>
+      <button type="button" class="link-btn" id="backToCart" data-i18n="back">Վերադառնալ</button>
+      <label><span data-i18n="f_name"></span><input name="name" autocomplete="name" required></label>
+      <label><span data-i18n="f_phone"></span><input name="phone" type="tel" autocomplete="tel" placeholder="+374" required></label>
+      <label><span data-i18n="f_address"></span><input name="address" autocomplete="street-address" required></label>
+      <label><span data-i18n="f_note"></span><textarea name="note" rows="2"></textarea></label>
+      <p class="form-msg" id="formMsg" role="status"></p>
+      <div class="send" id="sendButtons"></div>
+    </form>
+
+    <div class="drawer__foot" id="drawerFoot">
+      <dl class="sum">
+        <div><dt data-i18n="subtotal"></dt><dd id="subtotal">0 ֏</dd></div>
+        <div><dt data-i18n="delivery"></dt><dd id="deliveryFee"></dd></div>
+        <div class="sum__total"><dt data-i18n="total"></dt><dd id="total">0 ֏</dd></div>
+      </dl>
+      <button class="btn btn--gold btn--block" type="button" id="toCheckout" data-i18n="checkout">Ձևակերպել պատվերը</button>
+    </div>
+  </aside>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

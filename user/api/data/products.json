@@ -1,0 +1,492 @@
+[
+  {
+    "id": "nike-reversible-puffer",
+    "cat": "outerwear",
+    "brand": "Nike",
+    "price": 25000,
+    "sizes": "clothes",
+    "img": "assets/img/instagram/ig-01.jpg",
+    "name": {
+      "hy": "Nike երկկողմանի կուրտկա",
+      "ru": "Двусторонняя куртка Nike",
+      "en": "Nike reversible puffer jacket"
+    },
+    "hidden": false
+  },
+  {
+    "id": "calvin-klein-puffer",
+    "cat": "outerwear",
+    "brand": "Calvin Klein",
+    "price": 25000,
+    "sizes": "clothes",
+    "img": "assets/img/instagram/ig-05.jpg",
+    "name": {
+      "hy": "Calvin Klein կուրտկա, սպիտակ",
+      "ru": "Пуховик Calvin Klein, белый",
+      "en": "Calvin Klein puffer, white"
+    },
+    "hidden": false
+  },
+  {
+    "id": "ferrari-racing-jacket",
+    "cat": "outerwear",
+    "brand": "Ferrari",
+    "price": 17000,
+    "sizes": "clothes",
+    "img": "assets/img/instagram/ig-04.jpg",
+    "name": {
+      "hy": "Ferrari մրցարշավային բաճկոն",
+      "ru": "Гоночная куртка Ferrari",
+      "en": "Ferrari racing jacket"
+    },
+    "hidden": false
+  },
+  {
+    "id": "red-bull-hoodie",
+    "cat": "tops",
+    "brand": "Red Bull Racing",
+    "price": 15000,
+    "sizes": "clothes",
+    "img": "assets/img/instagram/ig-08.jpg",
+    "name": {
+      "hy": "Red Bull Racing հուդի",
+      "ru": "Худи Red Bull Racing",
+      "en": "Red Bull Racing hoodie"
+    },
+    "hidden": false
+  },
+  {
+    "id": "red-bull-tee",
+    "cat": "tops",
+    "brand": "Red Bull Racing",
+    "price": 12000,
+    "sizes": "clothes",
+    "img": "assets/img/instagram/ig-09.jpg",
+    "name": {
+      "hy": "Red Bull Racing շապիկ",
+      "ru": "Футболка Red Bull Racing",
+      "en": "Red Bull Racing T-shirt"
+    },
+    "hidden": false
+  },
+  {
+    "id": "nike-half-zip-sweatshirt",
+    "cat": "tops",
+    "brand": "Nike",
+    "price": 15000,
+    "sizes": "clothes",
+    "img": "assets/img/instagram/ig-06.jpg",
+    "name": {
+      "hy": "Nike կիսաշղթա սվիտշոթ",
+      "ru": "Свитшот Nike на полузамке",
+      "en": "Nike half-zip sweatshirt"
+    },
+    "hidden": false
+  },
+  {
+    "id": "i-feel-hoodie",
+    "cat": "tops",
+    "brand": "I Feel",
+    "price": 15000,
+    "sizes": "clothes",
+    "img": "assets/img/instagram/ig-11.jpg",
+    "name": {
+      "hy": "Սև հուդի «I Feel»",
+      "ru": "Чёрное худи «I Feel»",
+      "en": "Black “I Feel” zip hoodie"
+    },
+    "hidden": false
+  },
+  {
+    "id": "nike-tech-fleece-set",
+    "cat": "bottoms",
+    "brand": "Nike",
+    "price": 21000,
+    "sizes": "clothes",
+    "img": "assets/img/instagram/ig-02.jpg",
+    "name": {
+      "hy": "Nike Tech Fleece կոմպլեկտ, սպիտակ",
+      "ru": "Костюм Nike Tech Fleece, белый",
+      "en": "Nike Tech Fleece set, white"
+    },
+    "hidden": false
+  },
+  {
+    "id": "loro-piana-loafers",
+    "cat": "shoes",
+    "brand": "Loro Piana",
+    "price": 24000,
+    "sizes": "shoes",
+    "img": "assets/img/instagram/ig-12.jpg",
+    "name": {
+      "hy": "Loro Piana լոֆերներ, զամշ",
+      "ru": "Лоферы Loro Piana, замша",
+      "en": "Loro Piana suede loafers"
+    },
+    "hidden": false
+  },
+  {
+    "id": "navy-suede-sneakers",
+    "cat": "shoes",
+    "brand": "Sneakers",
+    "price": null,
+    "sizes": "shoes",
+    "img": "assets/img/instagram/ig-10.jpg",
+    "name": {
+      "hy": "Մուգ կապույտ բոթաս",
+      "ru": "Кеды тёмно-синие",
+      "en": "Navy suede sneakers"
+    },
+    "hidden": false
+  },
+  {
+    "id": "black-wide-sweatpants",
+    "cat": "bottoms",
+    "brand": "Basic",
+    "price": 15000,
+    "sizes": "clothes",
+    "img": "assets/img/products/black-wide-sweatpants.jpg",
+    "name": {
+      "hy": "Սև լայն սպորտային շալվար",
+      "ru": "Чёрные широкие спортивные штаны",
+      "en": "Black wide sweatpants"
+    },
+    "hidden": false
+  },
+  {
+    "id": "lv-trainer-sneakers",
+    "cat": "shoes",
+    "brand": "Louis Vuitton",
+    "price": 22000,
+    "sizes": "shoes",
+    "img": "assets/img/products/lv-trainer-sneakers.jpg",
+    "name": {
+      "hy": "Louis Vuitton Trainer բոթաս",
+      "ru": "Кроссовки Louis Vuitton Trainer",
+      "en": "Louis Vuitton Trainer sneakers"
+    },
+    "hidden": false
+  },
+  {
+    "id": "nike-low-olive",
+    "cat": "shoes",
+    "brand": "Nike",
+    "price": 22000,
+    "sizes": "shoes",
+    "img": "assets/img/products/nike-low-olive.jpg",
+    "name": {
+      "hy": "Nike Low բոթաս, ձիթապտղագույն",
+      "ru": "Кроссовки Nike Low, оливковые",
+      "en": "Nike Low sneakers, olive"
+    },
+    "hidden": false
+  },
+  {
+    "id": "burberry-scarf",
+    "cat": "accessories",
+    "brand": "Burberry",
+    "price": 11000,
+    "sizes": "one",
+    "img": "assets/img/products/burberry-scarf.jpg",
+    "name": {
+      "hy": "Burberry շարֆ",
+      "ru": "Шарф Burberry",
+      "en": "Burberry check scarf"
+    },
+    "hidden": false
+  },
+  {
+    "id": "uspa-crossbody-bag",
+    "cat": "accessories",
+    "brand": "U.S. Polo Assn.",
+    "price": 15000,
+    "sizes": "one",
+    "img": "assets/img/products/uspa-crossbody-bag.jpg",
+    "name": {
+      "hy": "U.S. Polo Assn. բարսետկա",
+      "ru": "Барсетка U.S. Polo Assn.",
+      "en": "U.S. Polo Assn. crossbody bag"
+    },
+    "hidden": false
+  },
+  {
+    "id": "polo-tracksuit-bottom",
+    "cat": "bottoms",
+    "brand": "Polo",
+    "price": 20000,
+    "sizes": "clothes",
+    "img": "assets/img/products/polo-tracksuit-bottom.jpg",
+    "name": {
+      "hy": "Polo կոմպլեկտի ներքև",
+      "ru": "Низ от костюма Polo",
+      "en": "Polo tracksuit bottom"
+    },
+    "hidden": false
+  },
+  {
+    "id": "burberry-jacket",
+    "cat": "outerwear",
+    "brand": "Burberry",
+    "price": 23000,
+    "sizes": "clothes",
+    "img": "assets/img/instagram/ig-07.jpg",
+    "name": {
+      "hy": "Burberry կուրտկա",
+      "ru": "Куртка Burberry",
+      "en": "Burberry jacket"
+    },
+    "hidden": false
+  },
+  {
+    "id": "marlboro-polo-jacket",
+    "cat": "tops",
+    "brand": "Marlboro",
+    "price": 15000,
+    "sizes": "clothes",
+    "img": "assets/img/products/marlboro-polo-jacket.jpg",
+    "name": {
+      "hy": "Marlboro պոլո բաճկոն",
+      "ru": "Кофта-поло Marlboro",
+      "en": "Marlboro polo jacket"
+    },
+    "hidden": false
+  },
+  {
+    "id": "polo-cap-bear",
+    "cat": "accessories",
+    "brand": "Polo",
+    "price": 8000,
+    "sizes": "one",
+    "img": "assets/img/products/polo-cap-bear.jpg",
+    "name": {
+      "hy": "Polo գլխարկ արջուկով",
+      "ru": "Кепка Polo с мишкой",
+      "en": "Polo bear cap"
+    },
+    "hidden": false
+  },
+  {
+    "id": "moncler-jacket",
+    "cat": "outerwear",
+    "brand": "Moncler",
+    "price": 27000,
+    "sizes": "clothes",
+    "img": "assets/img/products/moncler-jacket.jpg",
+    "name": {
+      "hy": "Moncler կուրտկա",
+      "ru": "Куртка Moncler",
+      "en": "Moncler jacket"
+    },
+    "hidden": false
+  },
+  {
+    "id": "polo-cap",
+    "cat": "accessories",
+    "brand": "Polo",
+    "price": 8000,
+    "sizes": "one",
+    "img": "assets/img/products/polo-cap.jpg",
+    "name": {
+      "hy": "Polo գլխարկ",
+      "ru": "Кепка Polo",
+      "en": "Polo cap"
+    },
+    "hidden": false
+  },
+  {
+    "id": "nike-sneakers-grey",
+    "cat": "shoes",
+    "brand": "Nike",
+    "price": 17000,
+    "sizes": "shoes",
+    "img": "assets/img/products/nike-sneakers-grey.jpg",
+    "name": {
+      "hy": "Nike բոթաս, մոխրագույն",
+      "ru": "Кроссовки Nike, серые",
+      "en": "Nike sneakers, grey"
+    },
+    "hidden": false
+  },
+  {
+    "id": "polo-jacket",
+    "cat": "tops",
+    "brand": "Polo",
+    "price": 17000,
+    "sizes": "clothes",
+    "img": "assets/img/products/polo-jacket.jpg",
+    "name": {
+      "hy": "Polo բաճկոն",
+      "ru": "Кофта Polo",
+      "en": "Polo jacket"
+    },
+    "hidden": false
+  },
+  {
+    "id": "new-balance",
+    "cat": "shoes",
+    "brand": "New Balance",
+    "price": 17000,
+    "sizes": "shoes",
+    "img": "assets/img/products/new-balance-white.jpg",
+    "name": {
+      "hy": "New Balance բոթաս",
+      "ru": "Кроссовки New Balance",
+      "en": "New Balance sneakers"
+    },
+    "hidden": false
+  },
+  {
+    "id": "polo-puffer",
+    "cat": "outerwear",
+    "brand": "Polo",
+    "price": 27000,
+    "sizes": "clothes",
+    "img": "assets/img/products/polo-puffer.jpg",
+    "name": {
+      "hy": "Polo կուրտկա",
+      "ru": "Куртка Polo",
+      "en": "Polo puffer jacket"
+    },
+    "hidden": false
+  },
+  {
+    "id": "nike-p6000",
+    "cat": "shoes",
+    "brand": "Nike",
+    "price": 17000,
+    "sizes": "shoes",
+    "img": "assets/img/products/nike-p6000.jpg",
+    "name": {
+      "hy": "Nike P-6000",
+      "ru": "Nike P-6000",
+      "en": "Nike P-6000"
+    },
+    "hidden": false
+  },
+  {
+    "id": "tommy-bag",
+    "cat": "accessories",
+    "brand": "Tommy",
+    "price": 12000,
+    "sizes": "one",
+    "img": "assets/img/products/tommy-bag.jpg",
+    "name": {
+      "hy": "Tommy բարսետկա",
+      "ru": "Барсетка Tommy",
+      "en": "Tommy crossbody bag"
+    },
+    "hidden": false
+  },
+  {
+    "id": "polo-half-zip",
+    "cat": "tops",
+    "brand": "Polo",
+    "price": 17000,
+    "sizes": "clothes",
+    "img": "assets/img/products/polo-half-zip.jpg",
+    "name": {
+      "hy": "Polo կիսաշղթա",
+      "ru": "Полузамок Polo",
+      "en": "Polo half-zip"
+    },
+    "hidden": false
+  },
+  {
+    "id": "nike-blue-white",
+    "cat": "tops",
+    "brand": "Nike",
+    "price": 17000,
+    "sizes": "clothes",
+    "img": "assets/img/products/nike-blue-white.jpg",
+    "name": {
+      "hy": "Nike, կապույտ-սպիտակ",
+      "ru": "Nike, сине-белый",
+      "en": "Nike, blue & white"
+    },
+    "hidden": false
+  },
+  {
+    "id": "nike-grey-black",
+    "cat": "tops",
+    "brand": "Nike",
+    "price": 17000,
+    "sizes": "clothes",
+    "img": "assets/img/products/nike-grey-black.jpg",
+    "name": {
+      "hy": "Nike, մոխրագույն-սև",
+      "ru": "Nike, серо-чёрный",
+      "en": "Nike, grey & black"
+    },
+    "hidden": false
+  },
+  {
+    "id": "chrome-hearts-jacket",
+    "cat": "tops",
+    "brand": "Chrome Hearts",
+    "price": 18000,
+    "sizes": "clothes",
+    "img": "assets/img/products/chrome-hearts-jacket.jpg",
+    "name": {
+      "hy": "Chrome Hearts բաճկոն",
+      "ru": "Кофта Chrome Hearts",
+      "en": "Chrome Hearts jacket"
+    },
+    "hidden": false
+  },
+  {
+    "id": "floral-pants",
+    "cat": "bottoms",
+    "brand": "Trendly",
+    "price": 15000,
+    "sizes": "clothes",
+    "img": "assets/img/products/floral-pants.jpg",
+    "name": {
+      "hy": "Ծաղիկներով շալվար",
+      "ru": "Штаны с цветами",
+      "en": "Floral pants"
+    },
+    "hidden": false
+  },
+  {
+    "id": "letter-hoodie",
+    "cat": "tops",
+    "brand": "Hoodie",
+    "price": 13000,
+    "sizes": "clothes",
+    "img": "assets/img/products/letter-hoodie.jpg",
+    "name": {
+      "hy": "Հուդի տառերով, մոխրագույն-սև",
+      "ru": "Худи с буквами, серо-чёрное",
+      "en": "Letter hoodie, grey & black"
+    },
+    "hidden": false
+  },
+  {
+    "id": "polo-tracksuit",
+    "cat": "bottoms",
+    "brand": "Polo",
+    "price": 25000,
+    "sizes": "clothes",
+    "img": "assets/img/products/polo-tracksuit.jpg",
+    "name": {
+      "hy": "Polo կոմպլեկտ (վերև + ներքև)",
+      "ru": "Костюм Polo (верх + низ)",
+      "en": "Polo tracksuit (top + bottom)"
+    },
+    "hidden": false
+  },
+  {
+    "id": "polo-tracksuit-top",
+    "cat": "tops",
+    "brand": "Polo",
+    "price": 17000,
+    "sizes": "clothes",
+    "img": "assets/img/products/polo-tracksuit-top.jpg",
+    "name": {
+      "hy": "Polo կոմպլեկտի վերև",
+      "ru": "Верх от костюма Polo",
+      "en": "Polo tracksuit top"
+    },
+    "hidden": false
+  }
+]

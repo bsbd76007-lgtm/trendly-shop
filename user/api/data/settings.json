@@ -1,0 +1,28 @@
+{
+  "name": "Trendly Shop",
+  "city": "Yerevan",
+  "instagram": "trendly._.shop",
+  "whatsapp": "",
+  "telegram": "",
+  "phone": "",
+  "deliveryFee": null,
+  "defaultLang": "hy",
+  "sizes": {
+    "clothes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "shoes": [
+      "40",
+      "41",
+      "42",
+      "43",
+      "44",
+      "45"
+    ],
+    "one": []
+  }
+}
