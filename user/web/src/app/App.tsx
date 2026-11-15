@@ -7,7 +7,11 @@ import { AccountPage } from "@/pages/AccountPage.tsx";
 import { FaqPage } from "@/pages/FaqPage.tsx";
 import { HomePage } from "@/pages/HomePage.tsx";
 import { NotFoundPage } from "@/pages/NotFoundPage.tsx";
+import { PayPage } from "@/pages/PayPage.tsx";
+import { ResetPasswordPage } from "@/pages/ResetPasswordPage.tsx";
+import { TrackPage } from "@/pages/TrackPage.tsx";
 import { PrivacyPage } from "@/pages/PrivacyPage.tsx";
+import { AuthProvider } from "@/state/AuthProvider.tsx";
 import { CartProvider } from "@/state/CartProvider.tsx";
 import { ShopProvider } from "@/state/ShopProvider.tsx";
 import { ToastProvider } from "@/state/ToastProvider.tsx";
@@ -17,22 +21,27 @@ const AdminApp = lazy(() => import("@/admin/AdminApp.tsx"));
 function Shop() {
   return (
     <I18nProvider>
-      <ShopProvider>
-        <CartProvider>
-          <ToastProvider>
-            <Routes>
-              <Route element={<SiteLayout />}>
-                <Route index element={<HomePage />} />
-                <Route path="about" element={<AboutPage />} />
-                <Route path="faq" element={<FaqPage />} />
-                <Route path="privacy" element={<PrivacyPage />} />
-                <Route path="account" element={<AccountPage />} />
-                <Route path="*" element={<NotFoundPage />} />
-              </Route>
-            </Routes>
-          </ToastProvider>
-        </CartProvider>
-      </ShopProvider>
+      <AuthProvider>
+        <ShopProvider>
+          <CartProvider>
+            <ToastProvider>
+              <Routes>
+                <Route element={<SiteLayout />}>
+                  <Route index element={<HomePage />} />
+                  <Route path="about" element={<AboutPage />} />
+                  <Route path="faq" element={<FaqPage />} />
+                  <Route path="privacy" element={<PrivacyPage />} />
+                  <Route path="account" element={<AccountPage />} />
+                  <Route path="account/reset" element={<ResetPasswordPage />} />
+                  <Route path="pay/:id" element={<PayPage />} />
+                  <Route path="track/:id" element={<TrackPage />} />
+                  <Route path="*" element={<NotFoundPage />} />
+                </Route>
+              </Routes>
+            </ToastProvider>
+          </CartProvider>
+        </ShopProvider>
+      </AuthProvider>
     </I18nProvider>
   );
 }

@@ -1,65 +1,88 @@
 import { DEFAULT_SETTINGS } from "../../../shared/constants.ts";
 import type { InstagramPost, Product, PublicProduct, Settings } from "../../../shared/types.ts";
-import { load, overwrite, update } from "../lib/store.ts";
+import { db } from "../db/client.ts";
+import { fromProduct, toInstagram, toProduct, toSettings } from "../db/mappers.ts";
 import { missing, reject } from "../lib/errors.ts";
 
 export const toPublicProduct = ({ id, cat, brand, price, sizes, img, name }: Product): PublicProduct =>
   ({ id, cat, brand, price, sizes, img, name });
 
 export async function getSettings(): Promise<Settings> {
-  return { ...DEFAULT_SETTINGS, ...(await load<Partial<Settings>>("settings", DEFAULT_SETTINGS)) };
+  const [row, cards] = await Promise.all([
+    db.settings.findUnique({ where: { id: 1 } }),
+    db.paymentCard.findMany({ orderBy: { position: "asc" } })
+  ]);
+  return row ? toSettings(row, cards) : { ...DEFAULT_SETTINGS, cards: cards.map(({ bank, number, holder }) => ({ bank, number, holder })) };
 }
 
-export const saveSettings = (settings: Settings) => overwrite("settings", settings);
+export async function saveSettings(settings: Settings): Promise<Settings> {
+  const { cards, ...fields } = settings;
+  await db.$transaction([
+    db.settings.upsert({ where: { id: 1 }, create: { id: 1, ...fields }, update: fields }),
+    db.paymentCard.deleteMany(),
+    db.paymentCard.createMany({ data: cards.map((card, position) => ({ ...card, position })) })
+  ]);
+  return getSettings();
+}
 
-export const getProducts = () => load<Product[]>("products", []);
+export async function getProducts(): Promise<Product[]> {
+  return (await db.product.findMany({ orderBy: { position: "asc" } })).map(toProduct);
+}
 
 export async function getVisibleProducts(): Promise<PublicProduct[]> {
-  return (await getProducts()).filter((product) => !product.hidden).map(toPublicProduct);
+  return (await db.product.findMany({ where: { hidden: false }, orderBy: { position: "asc" } })).map(toProduct).map(toPublicProduct);
 }
 
-export const getInstagram = () => load<InstagramPost[]>("instagram", []);
-export const saveInstagram = (posts: InstagramPost[]) => overwrite("instagram", posts);
+export async function getInstagram(): Promise<InstagramPost[]> {
+  return (await db.instagramPost.findMany({ orderBy: { position: "asc" } })).map(toInstagram);
+}
 
-export function createProduct(product: Product): Promise<Product> {
-  return update<Product[], Product>("products", [], (list) => {
-    if (list.some((item) => item.id === product.id)) reject(`ID "${product.id}" is already used`);
-    list.unshift(product);
-    return product;
+export async function saveInstagram(posts: InstagramPost[]): Promise<InstagramPost[]> {
+  await db.$transaction([
+    db.instagramPost.deleteMany(),
+    db.instagramPost.createMany({ data: posts.map((post, position) => ({ ...post, position })) })
+  ]);
+  return getInstagram();
+}
+
+export async function createProduct(product: Product): Promise<Product> {
+  return db.$transaction(async (tx) => {
+    if (await tx.product.findUnique({ where: { id: product.id } })) reject(`ID "${product.id}" is already used`);
+    const first = await tx.product.aggregate({ _min: { position: true } });
+    const row = await tx.product.create({ data: { id: product.id, position: (first._min.position ?? 1) - 1, ...fromProduct(product) } });
+    return toProduct(row);
   });
 }
 
-export function replaceProduct(product: Product): Promise<Product> {
-  return update<Product[], Product>("products", [], (list) => {
-    const index = list.findIndex((item) => item.id === product.id);
-    if (index < 0) missing("Product not found");
-    list[index] = product;
-    return product;
+export async function replaceProduct(product: Product): Promise<Product> {
+  const result = await db.product.updateMany({ where: { id: product.id }, data: fromProduct(product) });
+  if (!result.count) missing("Product not found");
+  return toProduct((await db.product.findUnique({ where: { id: product.id } }))!);
+}
+
+export async function changeProduct(id: string, change: (current: Product) => Product): Promise<Product> {
+  return db.$transaction(async (tx) => {
+    const row = (await tx.product.findUnique({ where: { id } })) ?? missing("Product not found");
+    const next = change(toProduct(row));
+    return toProduct(await tx.product.update({ where: { id }, data: fromProduct(next) }));
   });
 }
 
-export function changeProduct(id: string, change: (current: Product) => Product): Promise<Product> {
-  return update<Product[], Product>("products", [], (list) => {
-    const index = list.findIndex((item) => item.id === id);
-    if (index < 0) missing("Product not found");
-    list[index] = change(list[index]);
-    return list[index];
+export async function moveProduct(id: string, direction: "up" | "down"): Promise<void> {
+  await db.$transaction(async (tx) => {
+    const current = await tx.product.findUnique({ where: { id } });
+    if (!current) return;
+    const neighbour = await tx.product.findFirst({
+      where: { position: direction === "up" ? { lt: current.position } : { gt: current.position } },
+      orderBy: { position: direction === "up" ? "desc" : "asc" }
+    });
+    if (!neighbour) return;
+    await tx.product.update({ where: { id: current.id }, data: { position: neighbour.position } });
+    await tx.product.update({ where: { id: neighbour.id }, data: { position: current.position } });
   });
 }
 
-export function moveProduct(id: string, direction: "up" | "down"): Promise<void> {
-  return update<Product[], void>("products", [], (list) => {
-    const from = list.findIndex((item) => item.id === id);
-    const to = from + (direction === "up" ? -1 : 1);
-    if (from < 0 || to < 0 || to >= list.length) return;
-    [list[from], list[to]] = [list[to], list[from]];
-  });
-}
-
-export function deleteProduct(id: string): Promise<void> {
-  return update<Product[], void>("products", [], (list) => {
-    const index = list.findIndex((item) => item.id === id);
-    if (index < 0) missing("Product not found");
-    list.splice(index, 1);
-  });
+export async function deleteProduct(id: string): Promise<void> {
+  const result = await db.product.deleteMany({ where: { id } });
+  if (!result.count) missing("Product not found");
 }

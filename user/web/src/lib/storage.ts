@@ -17,5 +17,7 @@ export function writeStored(key: string, value: unknown): void {
 
 export const STORAGE_KEYS = {
   lang: "trendly_lang",
-  cart: "trendly_cart"
+  cart: "trendly_cart",
+  orders: "trendly_orders",
+  support: "trendly_support"
 } as const;

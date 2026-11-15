@@ -1,5 +1,6 @@
 import { Outlet } from "react-router";
 import { CartDrawer } from "@/features/cart/CartDrawer.tsx";
+import { SupportWidget } from "@/features/support/SupportWidget.tsx";
 import { useScrollToHash } from "@/hooks/useScrollToHash.ts";
 import { useI18n } from "@/i18n/I18nProvider.tsx";
 import { useShop } from "@/state/ShopProvider.tsx";
@@ -23,6 +24,7 @@ export function SiteLayout() {
       </main>
       <Footer />
       <CartDrawer />
+      <SupportWidget />
     </>
   );
 }

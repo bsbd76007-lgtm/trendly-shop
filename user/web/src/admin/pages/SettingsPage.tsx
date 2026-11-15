@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { LANGS } from "@shared/constants.ts";
-import type { Lang, Settings } from "@shared/types.ts";
+import type { Lang, PaymentCard, Settings } from "@shared/types.ts";
 import { useAdmin } from "../AdminContext.tsx";
 import { AdminButton, ErrorState, Input, Loading, PageHeader, Panel, Select } from "../components/ui.tsx";
 import { adminApi } from "../lib/adminApi.ts";
@@ -18,6 +18,7 @@ interface FormState {
   deliveryFee: string;
   clothes: string;
   shoes: string;
+  cards: PaymentCard[];
 }
 
 const toForm = (settings: Settings): FormState => ({
@@ -30,8 +31,11 @@ const toForm = (settings: Settings): FormState => ({
   phone: settings.phone,
   deliveryFee: settings.deliveryFee === null ? "" : String(settings.deliveryFee),
   clothes: settings.sizes.clothes.join(", "),
-  shoes: settings.sizes.shoes.join(", ")
+  shoes: settings.sizes.shoes.join(", "),
+  cards: settings.cards ?? []
 });
+
+const BLANK_CARD: PaymentCard = { bank: "", number: "", holder: "" };
 
 const grid = "grid gap-3.5 p-[18px] min-[821px]:grid-cols-2";
 
@@ -49,7 +53,7 @@ export function SettingsPage() {
   if (loading || (data && !form)) return <Loading />;
   if (!data || !form) return <ErrorState message={error} />;
 
-  const field = (key: keyof FormState) => ({
+  const field = (key: Exclude<keyof FormState, "cards">) => ({
     value: form[key],
     onChange: (event: { target: { value: string } }) => setForm({ ...form, [key]: event.target.value })
   });
@@ -68,7 +72,8 @@ export function SettingsPage() {
         whatsapp: form.whatsapp,
         phone: form.phone,
         deliveryFee: form.deliveryFee === "" ? null : Number(form.deliveryFee),
-        sizes: { clothes: form.clothes, shoes: form.shoes }
+        sizes: { clothes: form.clothes, shoes: form.shoes },
+        cards: form.cards
       });
       setForm(toForm(saved));
       notify("Settings saved");
@@ -78,6 +83,11 @@ export function SettingsPage() {
       setSaving(false);
     }
   };
+
+  const setCard = (index: number, key: keyof PaymentCard, value: string) =>
+    setForm({ ...form, cards: form.cards.map((card, i) => (i === index ? { ...card, [key]: value } : card)) });
+  const removeCard = (index: number) => setForm({ ...form, cards: form.cards.filter((_, i) => i !== index) });
+  const addCard = () => setForm({ ...form, cards: [...form.cards, BLANK_CARD] });
 
   return (
     <>
@@ -95,6 +105,18 @@ export function SettingsPage() {
           <Input label="Telegram username" placeholder="trendly_shop" hint="Empty = no Telegram button" {...field("telegram")} />
           <Input label="WhatsApp number" placeholder="37499123456" inputMode="numeric" hint="Digits with country code. Empty = no WhatsApp button" {...field("whatsapp")} />
           <Input label="Phone in the footer" placeholder="+374 99 12 34 56" {...field("phone")} />
+        </Panel>
+        <Panel title="Payment cards" bodyClassName="flex flex-col gap-3 p-[18px]">
+          <p className="text-muted">After placing an order, customers see these cards on the payment page and transfer the total to one of them.</p>
+          {form.cards.map((card, index) => (
+            <div key={index} className="grid items-end gap-3 border border-line p-3 min-[821px]:grid-cols-[1fr_1.4fr_1fr_auto]">
+              <Input label="Bank" placeholder="Ameriabank" maxLength={40} value={card.bank} onChange={(event) => setCard(index, "bank", event.target.value)} />
+              <Input label="Card number" inputMode="numeric" placeholder="4355 0000 0000 0000" maxLength={23} value={card.number} onChange={(event) => setCard(index, "number", event.target.value)} />
+              <Input label="Card holder" placeholder="NAME SURNAME" maxLength={60} value={card.holder} onChange={(event) => setCard(index, "holder", event.target.value)} />
+              <AdminButton tone="danger" small className="min-h-[38px]" onClick={() => removeCard(index)}>Remove</AdminButton>
+            </div>
+          ))}
+          <div><AdminButton small onClick={addCard}>+ Add card</AdminButton></div>
         </Panel>
         <Panel title="Delivery and sizes" bodyClassName={grid}>
           <Input label="Delivery fee, AMD" type="number" min={0} step={100} placeholder="empty = we confirm the price" hint={'Empty: the cart says "we\'ll confirm"'} {...field("deliveryFee")} />

@@ -1,5 +1,5 @@
 import { DEFAULT_SETTINGS, IMAGE_PATH, LANGS } from "../../../shared/constants.ts";
-import type { InstagramPost, Lang, Settings } from "../../../shared/types.ts";
+import type { InstagramPost, Lang, PaymentCard, Settings } from "../../../shared/types.ts";
 import { reject } from "../lib/errors.ts";
 import { clean } from "../lib/text.ts";
 import { parsePrice } from "./product.ts";
@@ -9,6 +9,15 @@ const sizeList = (value: unknown): string[] =>
     .map((item) => clean(String(item), 10))
     .filter(Boolean)
     .slice(0, 20);
+
+function parseCards(value: unknown): PaymentCard[] {
+  if (!Array.isArray(value)) return [];
+  return value.slice(0, 10).map((item: Record<string, unknown>, index) => {
+    const number = clean(item?.number, 40).replace(/[^\d]/g, "");
+    if (number.length < 12 || number.length > 19) reject(`Card ${index + 1}: enter a 12–19 digit card number`);
+    return { bank: clean(item?.bank, 40), number, holder: clean(item?.holder, 60) };
+  });
+}
 
 export function parseSettings(body: Record<string, unknown>): Settings {
   const instagram = clean(body.instagram, 60).replace(/^@/, "");
@@ -25,7 +34,8 @@ export function parseSettings(body: Record<string, unknown>): Settings {
     phone: clean(body.phone, 30),
     deliveryFee: parsePrice(body.deliveryFee, "Delivery fee"),
     defaultLang: LANGS.includes(body.defaultLang as Lang) ? (body.defaultLang as Lang) : "hy",
-    sizes: { clothes: sizeList(sizes.clothes), shoes: sizeList(sizes.shoes), one: [] }
+    sizes: { clothes: sizeList(sizes.clothes), shoes: sizeList(sizes.shoes), one: [] },
+    cards: parseCards(body.cards)
   };
 }
 

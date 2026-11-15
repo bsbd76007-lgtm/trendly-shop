@@ -13,6 +13,7 @@ import { ProductEditPage } from "./pages/ProductEditPage.tsx";
 import { ProductsPage } from "./pages/ProductsPage.tsx";
 import { ReviewsPage } from "./pages/ReviewsPage.tsx";
 import { SettingsPage } from "./pages/SettingsPage.tsx";
+import { SupportPage } from "./pages/SupportPage.tsx";
 
 type Session = "checking" | "signed-in" | "signed-out";
 
@@ -54,6 +55,8 @@ export default function AdminApp() {
               <Route path="orders/:id" element={<OrderPage />} />
               <Route path="products" element={<ProductsPage />} />
               <Route path="products/:id" element={<ProductEditPage />} />
+              <Route path="support" element={<SupportPage />} />
+              <Route path="support/:id" element={<SupportPage />} />
               <Route path="reviews" element={<ReviewsPage />} />
               <Route path="instagram" element={<InstagramPage />} />
               <Route path="settings" element={<SettingsPage />} />

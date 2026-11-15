@@ -2,6 +2,7 @@ import { Router } from "express";
 import type { NewOrderResponse, ShopData } from "../../../shared/types.ts";
 import { handle, missing } from "../lib/errors.ts";
 import { getInstagram, getSettings, getVisibleProducts } from "../services/catalog.ts";
+import { sessionUserId } from "../middleware/customer.ts";
 import { createOrder } from "../services/orders.ts";
 import { listPublicReviews, submitReview } from "../services/reviews.ts";
 import { parseOrder, parseReview } from "../validation/public.ts";
@@ -14,12 +15,12 @@ publicRoutes.get("/health", (_req, res) => {
 
 publicRoutes.get("/shop", handle(async (_req, res) => {
   const [config, products, igPosts] = await Promise.all([getSettings(), getVisibleProducts(), getInstagram()]);
-  const data: ShopData = { config, products, igPosts };
+  const data: ShopData = { config: { ...config, cards: [] }, products, igPosts };
   res.json(data);
 }));
 
 publicRoutes.get("/config", handle(async (_req, res) => {
-  res.json(await getSettings());
+  res.json({ ...(await getSettings()), cards: [] });
 }));
 
 publicRoutes.get("/products", handle(async (_req, res) => {
@@ -36,8 +37,8 @@ publicRoutes.get("/instagram", handle(async (_req, res) => {
 }));
 
 publicRoutes.post("/orders", handle(async (req, res) => {
-  const order = await createOrder(parseOrder(req.body ?? {}));
-  const response: NewOrderResponse = { id: order.id, total: order.total };
+  const order = await createOrder(parseOrder(req.body ?? {}), sessionUserId(req));
+  const response: NewOrderResponse = { id: order.id, total: order.total, token: order.payment!.token };
   res.status(201).json(response);
 }));
 

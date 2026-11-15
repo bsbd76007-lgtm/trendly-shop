@@ -1,8 +1,9 @@
 import { ORDER_STATUSES } from "../../../shared/constants.ts";
-import type { DayStat, Order, OrderStatus, Review, SoldProduct, Stats } from "../../../shared/types.ts";
-import { load } from "../lib/store.ts";
+import type { DayStat, Order, OrderStatus, SoldProduct, Stats } from "../../../shared/types.ts";
 import { getProducts } from "./catalog.ts";
 import { listOrders } from "./orders.ts";
+import { listReviews } from "./reviews.ts";
+import { supportCounts } from "./support.ts";
 
 const DAY = 864e5;
 const revenueOf = (orders: Order[]) => orders.reduce((sum, order) => sum + (order.total || 0), 0);
@@ -29,7 +30,7 @@ function lastDays(orders: Order[], count: number): DayStat[] {
 }
 
 export async function getStats(): Promise<Stats> {
-  const [orders, products, reviews] = await Promise.all([listOrders(), getProducts(), load<Review[]>("reviews", [])]);
+  const [orders, products, reviews, support] = await Promise.all([listOrders(), getProducts(), listReviews(), supportCounts()]);
   const live = orders.filter((order) => order.status !== "cancelled");
   const since = Date.now() - 30 * DAY;
   const last30 = live.filter((order) => Date.parse(order.createdAt) >= since);
@@ -46,7 +47,9 @@ export async function getStats(): Promise<Stats> {
       last30: last30.length,
       revenue,
       revenue30: revenueOf(last30),
-      average: live.length ? Math.round(revenue / live.length) : 0
+      average: live.length ? Math.round(revenue / live.length) : 0,
+      paymentsToCheck: orders.filter((order) => order.payment?.status === "submitted").length,
+      needsAction: orders.filter((order) => order.status === "new" || order.payment?.status === "submitted").length
     },
     products: {
       total: products.length,
@@ -54,6 +57,7 @@ export async function getStats(): Promise<Stats> {
       noPrice: products.filter((product) => product.price === null).length,
       noPhoto: products.filter((product) => !product.img).length
     },
+    support,
     reviews: {
       pending: reviews.length - approved.length,
       approved: approved.length,

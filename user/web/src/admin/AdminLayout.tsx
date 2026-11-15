@@ -1,11 +1,13 @@
+import { useEffect } from "react";
 import { Link, NavLink, Outlet } from "react-router";
 import { LogoMark } from "@/components/ui/Logo.tsx";
 import { cn } from "@/lib/cn.ts";
 import { useAdmin } from "./AdminContext.tsx";
 
-const NAV: Array<{ to: string; label: string; count?: "orders" | "reviews"; end?: boolean }> = [
+const NAV: Array<{ to: string; label: string; count?: "orders" | "reviews" | "support"; end?: boolean }> = [
   { to: "/admin", label: "Dashboard", end: true },
   { to: "/admin/orders", label: "Orders", count: "orders" },
+  { to: "/admin/support", label: "Support", count: "support" },
   { to: "/admin/products", label: "Products" },
   { to: "/admin/reviews", label: "Reviews", count: "reviews" },
   { to: "/admin/instagram", label: "Instagram" },
@@ -14,6 +16,11 @@ const NAV: Array<{ to: string; label: string; count?: "orders" | "reviews"; end?
 
 export function AdminLayout({ onSignOut }: { onSignOut: () => void }) {
   const { counts } = useAdmin();
+
+  useEffect(() => {
+    const pending = counts.orders + counts.reviews + counts.support;
+    document.title = `${pending ? `(${pending}) ` : ""}Admin — Trendly Shop`;
+  }, [counts]);
 
   return (
     <div className="grid min-h-screen bg-soft text-sm leading-normal min-[821px]:grid-cols-[232px_1fr]">

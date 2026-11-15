@@ -1,8 +1,8 @@
 import type { ButtonHTMLAttributes, InputHTMLAttributes, ReactNode, SelectHTMLAttributes, TextareaHTMLAttributes } from "react";
 import { Link } from "react-router";
-import type { OrderStatus } from "@shared/types.ts";
+import type { OrderStatus, PaymentStatus } from "@shared/types.ts";
 import { cn } from "@/lib/cn.ts";
-import { STATUS_LABELS, STATUS_STYLES } from "../lib/labels.ts";
+import { PAYMENT_LABELS, PAYMENT_STYLES, STATUS_LABELS, STATUS_STYLES } from "../lib/labels.ts";
 
 type Tone = "default" | "primary" | "danger";
 
@@ -120,6 +120,10 @@ export function PageHeader({ title, subtitle, back, actions }: {
 
 export function StatusBadge({ status }: { status: OrderStatus }) {
   return <Badge className={STATUS_STYLES[status]}>{STATUS_LABELS[status]}</Badge>;
+}
+
+export function PaymentBadge({ status }: { status: PaymentStatus }) {
+  return <Badge className={PAYMENT_STYLES[status]}>{PAYMENT_LABELS[status]}</Badge>;
 }
 
 export function Badge({ children, className }: { children: ReactNode; className?: string }) {

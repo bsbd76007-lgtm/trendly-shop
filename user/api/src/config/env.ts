@@ -6,6 +6,7 @@ const root = new URL("../../", import.meta.url);
 export const PORT = Number(process.env.PORT) || 4000;
 export const DATA_DIR = fileURLToPath(new URL("data/", root));
 export const UPLOADS_DIR = fileURLToPath(new URL("uploads/", root));
+export const RECEIPTS_DIR = fileURLToPath(new URL("data/receipts/", root));
 export const SESSION_HOURS = 12;
 
 function resolveAdminPassword(): string {
@@ -19,3 +20,33 @@ function resolveAdminPassword(): string {
 }
 
 export const ADMIN_PASSWORD = resolveAdminPassword();
+
+const env = (name: string) => (process.env[name] ?? "").trim();
+
+export const APP_URL = (env("APP_URL") || "http://localhost:3000").replace(/\/+$/, "");
+
+function resolveAuthSecret(): string {
+  const fromEnv = env("AUTH_SECRET");
+  if (fromEnv.length >= 32) return fromEnv;
+  console.log("  AUTH_SECRET is not set (32+ characters). Customers will be signed out when the API restarts.");
+  return randomBytes(32).toString("hex");
+}
+
+export const AUTH_SECRET = resolveAuthSecret();
+
+export const GOOGLE = {
+  clientId: env("GOOGLE_CLIENT_ID"),
+  clientSecret: env("GOOGLE_CLIENT_SECRET"),
+  redirectUri: env("GOOGLE_REDIRECT_URI") || `${APP_URL}/api/auth/google/callback`
+};
+
+export const SMTP = {
+  host: env("SMTP_HOST"),
+  port: Number(env("SMTP_PORT")) || 587,
+  secure: env("SMTP_SECURE") === "true" || env("SMTP_PORT") === "465",
+  user: env("SMTP_USER"),
+  pass: env("SMTP_PASS"),
+  from: env("MAIL_FROM") || env("SMTP_USER")
+};
+
+export const ADMIN_EMAIL = env("ADMIN_EMAIL");

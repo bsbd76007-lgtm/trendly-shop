@@ -8,3 +8,7 @@ user/photo-originals/
 user/originals-backup/
 user/api/data/*.backup-*.json
 *.tmp
+user/api/data/receipts/
+user/api/data/support.json
+user/api/data/users.json
+user/api/src/generated/

@@ -9,12 +9,14 @@ import { cn } from "@/lib/cn.ts";
 import { useCart } from "@/state/CartProvider.tsx";
 import { Container } from "./Container.tsx";
 import { LanguageSwitch } from "./LanguageSwitch.tsx";
+import { useAuth } from "@/state/AuthProvider.tsx";
 
 const navLink = "text-sm font-medium text-body no-underline hover:text-ink hover:underline hover:underline-offset-[6px]";
 const activeLink = ({ isActive }: { isActive: boolean }) => cn(navLink, isActive && "text-ink underline underline-offset-[6px]");
 
 export function Header() {
   const { t } = useI18n();
+  const { user } = useAuth();
   const { isOpen } = useCart();
   const ref = useRef<HTMLElement>(null);
   const { hidden, reveal } = useAutoHideHeader(ref, isOpen);
@@ -47,8 +49,9 @@ export function Header() {
 
         <div className="flex items-center justify-end gap-3.5">
           <LanguageSwitch />
-          <Link to="/account" aria-label={t.nav.account} className="grid size-10 place-items-center text-ink">
+          <Link to="/account" aria-label={user ? user.name || user.email : t.nav.account} className="relative grid size-10 place-items-center text-ink">
             <UserIcon className="size-[23px]" />
+            {user && <span className="absolute right-1.5 bottom-1.5 size-2 rounded-full border border-white bg-emerald-500" />}
           </Link>
           <CartButton />
         </div>

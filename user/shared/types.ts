@@ -1,9 +1,10 @@
-import type { CATEGORIES, LANGS, ORDER_STATUSES, SIZE_SETS } from "./constants.ts";
+import type { CATEGORIES, LANGS, ORDER_STATUSES, PAYMENT_STATUSES, SIZE_SETS } from "./constants.ts";
 
 export type Lang = (typeof LANGS)[number];
 export type Category = (typeof CATEGORIES)[number];
 export type SizeSet = (typeof SIZE_SETS)[number];
 export type OrderStatus = (typeof ORDER_STATUSES)[number];
+export type PaymentStatus = (typeof PAYMENT_STATUSES)[number];
 export type Localized = Record<Lang, string>;
 
 export interface Product {
@@ -29,6 +30,13 @@ export interface Settings {
   deliveryFee: number | null;
   defaultLang: Lang;
   sizes: Record<SizeSet, string[]>;
+  cards: PaymentCard[];
+}
+
+export interface PaymentCard {
+  bank: string;
+  number: string;
+  holder: string;
 }
 
 export interface InstagramPost {
@@ -47,6 +55,30 @@ export interface Customer {
   phone: string;
   address: string;
   note: string;
+  email?: string;
+}
+
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+  passwordHash?: string;
+  googleId?: string;
+  createdAt: string;
+  reset?: { hash: string; expires: number };
+}
+
+export interface PublicUser {
+  id: string;
+  email: string;
+  name: string;
+  google: boolean;
+  hasPassword: boolean;
+}
+
+export interface MeResponse {
+  user: PublicUser | null;
+  googleEnabled: boolean;
 }
 
 export interface OrderItem {
@@ -76,7 +108,57 @@ export interface Order {
   deliveryFee: number | null;
   total: number;
   history?: StatusChange[];
+  payment?: Payment;
+  customerUpdate?: string;
+  userId?: string;
 }
+
+export interface Payment {
+  status: PaymentStatus;
+  token: string;
+  receipt?: string;
+  submittedAt?: string;
+  decidedAt?: string;
+}
+
+export interface OrderView {
+  id: string;
+  createdAt: string;
+  items: Array<Pick<OrderItem, "name" | "size" | "qty" | "sum">>;
+  subtotal: number;
+  deliveryFee: number | null;
+  total: number;
+  status: OrderStatus;
+  history: StatusChange[];
+  payment: PaymentStatus;
+  update: string;
+  cards: PaymentCard[];
+}
+
+export interface OrderAccess {
+  id: string;
+  token: string;
+}
+
+export type SupportAuthor = "customer" | "shop";
+
+export interface SupportMessage {
+  from: SupportAuthor;
+  text: string;
+  at: string;
+}
+
+export interface SupportChat {
+  id: string;
+  token: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  unread: number;
+  messages: SupportMessage[];
+}
+
+export type SupportChatSummary = Omit<SupportChat, "token" | "messages"> & { last: SupportMessage | null };
 
 export interface CartLine {
   id: string;
@@ -94,6 +176,7 @@ export interface NewOrderRequest {
 export interface NewOrderResponse {
   id: string;
   total: number;
+  token: string;
 }
 
 export interface Review {
@@ -142,8 +225,11 @@ export interface Stats {
     revenue: number;
     revenue30: number;
     average: number;
+    paymentsToCheck: number;
+    needsAction: number;
   };
   products: { total: number; hidden: number; noPrice: number; noPhoto: number };
+  support: { unreadChats: number; unreadMessages: number };
   reviews: { pending: number; approved: number; average: number | null };
   recent: Order[];
   top: SoldProduct[];

@@ -17,6 +17,9 @@ export function parseOrder(body: Record<string, unknown>): ParsedOrder {
     address: clean(source.address),
     note: clean(source.note, 1000)
   };
+  const email = clean(source.email, 120).toLowerCase();
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) reject("Enter a valid email");
+  if (email) customer.email = email;
   if (!customer.name || !customer.phone || !customer.address) reject("name, phone and address are required");
   const items = Array.isArray(body.items) ? body.items : [];
   if (!items.length) reject("Cart is empty");

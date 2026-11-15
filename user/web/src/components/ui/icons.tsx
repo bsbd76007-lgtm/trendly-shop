@@ -38,3 +38,12 @@ export function GoogleIcon(props: SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
+
+export function ChatIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base} strokeWidth={1.8} {...props}>
+      <path d="M4 5.5h16v10H9.5L5.5 19v-3.5H4z" strokeLinejoin="round" />
+      <path d="M8 9.5h8M8 12.5h5" strokeLinecap="round" />
+    </svg>
+  );
+}

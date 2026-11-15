@@ -1,4 +1,4 @@
-import type { Category, Lang, OrderStatus, SizeSet } from "@shared/types.ts";
+import type { Category, Lang, OrderStatus, PaymentStatus, SizeSet } from "@shared/types.ts";
 
 export const CATEGORY_LABELS: Record<Category, string> = {
   outerwear: "Outerwear",
@@ -28,6 +28,20 @@ export const STATUS_STYLES: Record<OrderStatus, string> = {
   shipped: "bg-violet-50 text-violet-700",
   delivered: "bg-green-50 text-green-800",
   cancelled: "bg-stone-100 text-muted"
+};
+
+export const PAYMENT_LABELS: Record<PaymentStatus, string> = {
+  awaiting: "Not paid yet",
+  submitted: "Payment to check",
+  paid: "Paid",
+  rejected: "Payment rejected"
+};
+
+export const PAYMENT_STYLES: Record<PaymentStatus, string> = {
+  awaiting: "bg-stone-100 text-muted",
+  submitted: "bg-amber-100 text-amber-900",
+  paid: "bg-green-50 text-green-800",
+  rejected: "bg-red-50 text-red-700"
 };
 
 export const LANG_NAMES: Record<Lang, string> = { hy: "Armenian", ru: "Russian", en: "English" };

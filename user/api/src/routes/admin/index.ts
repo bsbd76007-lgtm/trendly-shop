@@ -3,6 +3,7 @@ import { isAdmin, login, logout, requireAdmin, requireJson } from "../../middlew
 import { contentRoutes } from "./content.ts";
 import { orderRoutes } from "./orders.ts";
 import { productRoutes } from "./products.ts";
+import { supportAdminRoutes } from "./support.ts";
 
 export const adminRoutes = Router();
 const json = express.json({ limit: "200kb" });
@@ -16,4 +17,4 @@ adminRoutes.get("/me", (req, res) => {
 adminRoutes.use(requireAdmin);
 adminRoutes.use((req, res, next) => (req.path === "/upload" ? next() : json(req, res, next)));
 adminRoutes.use(requireJson);
-adminRoutes.use(orderRoutes, productRoutes, contentRoutes);
+adminRoutes.use(orderRoutes, productRoutes, contentRoutes, supportAdminRoutes);

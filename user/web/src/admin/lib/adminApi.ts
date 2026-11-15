@@ -1,4 +1,4 @@
-import type { InstagramPost, Order, OrderStatus, Product, Review, Settings, Stats } from "@shared/types.ts";
+import type { InstagramPost, Order, OrderStatus, PaymentStatus, Product, Review, Settings, Stats, SupportChat, SupportChatSummary } from "@shared/types.ts";
 import { HttpError, request, type RequestOptions } from "@/lib/http.ts";
 import { resizeToJpeg } from "@/lib/image.ts";
 
@@ -25,10 +25,11 @@ export const adminApi = {
   stats: () => call<Stats>("/stats"),
 
   orders: () => call<Order[]>("/orders"),
-  updateOrder: (orderId: string, patch: { status?: OrderStatus; adminNote?: string }) =>
+  updateOrder: (orderId: string, patch: { status?: OrderStatus; adminNote?: string; payment?: PaymentStatus; customerUpdate?: string }) =>
     call<Order>(`/orders/${id(orderId)}`, { method: "PATCH", body: patch }),
   deleteOrder: (orderId: string) => call<Ok>(`/orders/${id(orderId)}`, { method: "DELETE" }),
   ordersCsvUrl: "/api/admin/orders.csv",
+  receiptUrl: (file: string) => `/api/admin/receipts/${encodeURIComponent(file)}`,
 
   products: () => call<Product[]>("/products"),
   createProduct: (product: Product) => call<Product>("/products", { method: "POST", body: product }),
@@ -51,6 +52,11 @@ export const adminApi = {
 
   instagram: () => call<InstagramPost[]>("/instagram"),
   saveInstagram: (posts: InstagramPost[]) => call<InstagramPost[]>("/instagram", { method: "PUT", body: posts }),
+
+  chats: () => call<SupportChatSummary[]>("/support"),
+  chat: (chatId: string) => call<Omit<SupportChat, "token">>(`/support/${id(chatId)}`),
+  replyChat: (chatId: string, text: string) => call<Omit<SupportChat, "token">>(`/support/${id(chatId)}/messages`, { method: "POST", body: { text } }),
+  deleteChat: (chatId: string) => call<Ok>(`/support/${id(chatId)}`, { method: "DELETE" }),
 
   settings: () => call<Settings>("/settings"),
   saveSettings: (settings: unknown) => call<Settings>("/settings", { method: "PUT", body: settings })

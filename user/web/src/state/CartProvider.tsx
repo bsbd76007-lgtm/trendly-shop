@@ -18,6 +18,7 @@ interface CartValue {
   add: (id: string, size: string) => void;
   changeQty: (index: number, delta: number) => void;
   remove: (index: number) => void;
+  clear: () => void;
 }
 
 const CartContext = createContext<CartValue | null>(null);
@@ -78,7 +79,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
     close: () => setIsOpen(false),
     add,
     changeQty,
-    remove
+    remove,
+    clear: () => setLines([])
   }), [entries, isOpen, bumpKey, add, changeQty, remove]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

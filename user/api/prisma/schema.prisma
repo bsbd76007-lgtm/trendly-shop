@@ -1,0 +1,169 @@
+generator client {
+  provider            = "prisma-client"
+  output              = "../src/generated/prisma"
+  moduleFormat        = "esm"
+  importFileExtension = "ts"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Product {
+  id        String   @id
+  position  Int
+  cat       String
+  brand     String   @default("")
+  price     Int?
+  sizes     String
+  img       String   @default("")
+  nameHy    String
+  nameRu    String
+  nameEn    String
+  hidden    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([position])
+}
+
+model InstagramPost {
+  id       Int    @id @default(autoincrement())
+  position Int
+  img      String
+  url      String @default("")
+}
+
+model Settings {
+  id          Int    @id @default(1)
+  name        String
+  city        String @default("")
+  instagram   String @default("")
+  whatsapp    String @default("")
+  telegram    String @default("")
+  phone       String @default("")
+  deliveryFee Int?
+  defaultLang String @default("hy")
+  sizes       Json
+}
+
+model PaymentCard {
+  id       Int    @id @default(autoincrement())
+  position Int
+  bank     String @default("")
+  number   String
+  holder   String @default("")
+}
+
+model Review {
+  id        String   @id
+  name      String
+  rating    Int
+  text      String
+  reply     String   @default("")
+  approved  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
+
+model User {
+  id           String    @id
+  email        String    @unique
+  name         String
+  passwordHash String?
+  googleId     String?   @unique
+  resetHash    String?   @unique
+  resetExpires DateTime?
+  createdAt    DateTime  @default(now())
+  orders       Order[]
+}
+
+model Order {
+  id                 String              @id
+  createdAt          DateTime            @default(now())
+  status             String              @default("new")
+  adminNote          String              @default("")
+  channel            String              @default("")
+  lang               String              @default("")
+  customerName       String
+  customerPhone      String
+  customerAddress    String
+  customerNote       String              @default("")
+  customerEmail      String?
+  customerUpdate     String              @default("")
+  subtotal           Int
+  deliveryFee        Int?
+  total              Int
+  paymentStatus      String              @default("awaiting")
+  paymentToken       String              @unique
+  receipt            String?
+  paymentSubmittedAt DateTime?
+  paymentDecidedAt   DateTime?
+  userId             String?
+  user               User?               @relation(fields: [userId], references: [id], onDelete: SetNull)
+  items              OrderItem[]
+  history            OrderStatusChange[]
+
+  @@index([createdAt])
+  @@index([status])
+  @@index([paymentStatus])
+  @@index([userId])
+  @@index([customerEmail])
+}
+
+model OrderItem {
+  id        Int    @id @default(autoincrement())
+  orderId   String
+  order     Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  position  Int
+  productId String
+  name      String
+  size      String @default("")
+  qty       Int
+  price     Int
+  sum       Int
+
+  @@index([orderId])
+  @@index([productId])
+}
+
+model OrderStatusChange {
+  id      Int      @id @default(autoincrement())
+  orderId String
+  order   Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  status  String
+  at      DateTime @default(now())
+
+  @@index([orderId])
+}
+
+model SupportChat {
+  id        String           @id
+  token     String           @unique
+  name      String           @default("")
+  unread    Int              @default(0)
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @default(now())
+  messages  SupportMessage[]
+
+  @@index([updatedAt])
+}
+
+model SupportMessage {
+  id     Int         @id @default(autoincrement())
+  chatId String
+  chat   SupportChat @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  from   String
+  text   String
+  at     DateTime    @default(now())
+
+  @@index([chatId, at])
+}
+
+model StoredFile {
+  id        String   @id
+  mime      String
+  data      Bytes
+  createdAt DateTime @default(now())
+}

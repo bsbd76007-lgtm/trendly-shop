@@ -64,7 +64,7 @@ export function CartDrawer() {
         </div>
 
         <div className="flex-1 overflow-auto px-5 pt-1 pb-5">
-          {view === "cart" ? <CartLines /> : <CheckoutForm total={total} onBack={() => setView("cart")} />}
+          {view === "cart" ? <CartLines /> : <CheckoutForm onBack={() => setView("cart")} />}
         </div>
 
         {entries.length > 0 && (
