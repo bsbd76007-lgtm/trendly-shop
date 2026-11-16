@@ -56,7 +56,7 @@ export function requireJson(req: Request, res: Response, next: NextFunction) {
 export function login(req: Request, res: Response) {
   const ip = req.ip ?? "unknown";
   if (isLockedOut(ip)) return res.status(429).json({ error: "Too many attempts. Try again in 15 minutes." });
-  const password = String((req.body as { password?: unknown } | undefined)?.password ?? "");
+  const password = String((req.body as { password?: unknown } | undefined)?.password ?? "").trim();
   if (!timingSafeEqual(digest(password), passwordDigest)) {
     const entry = attempts.get(ip);
     if (entry) entry.count += 1;

@@ -10,7 +10,10 @@ export const RECEIPTS_DIR = fileURLToPath(new URL("data/receipts/", root));
 export const SESSION_HOURS = 12;
 
 function resolveAdminPassword(): string {
-  const fromEnv = process.env.ADMIN_PASSWORD ?? "";
+  const raw = process.env.ADMIN_PASSWORD ?? "";
+  // Pasting into a hosting dashboard often adds a space or line break; it would make every login fail.
+  const fromEnv = raw.trim();
+  if (fromEnv !== raw) console.log("  ADMIN_PASSWORD had spaces or line breaks at the start or end. They were removed.");
   if (fromEnv.length >= 8) return fromEnv;
   const temporary = randomBytes(9).toString("base64url");
   console.log("\n  ADMIN_PASSWORD is not set (or shorter than 8 characters).");
