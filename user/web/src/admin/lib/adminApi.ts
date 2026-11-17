@@ -22,6 +22,7 @@ export const adminApi = {
   me: () => call<{ admin: boolean }>("/me"),
   login: (password: string) => call<Ok>("/login", { method: "POST", body: { password } }),
   logout: () => call<Ok>("/logout", { method: "POST" }),
+  changePassword: (current: string, next: string) => call<Ok>("/password", { method: "POST", body: { current, next } }),
   stats: () => call<Stats>("/stats"),
 
   orders: () => call<Order[]>("/orders"),

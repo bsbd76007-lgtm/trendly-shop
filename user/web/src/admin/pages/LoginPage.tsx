@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { LogoMark } from "@/components/ui/Logo.tsx";
-import { AdminButton, Input } from "../components/ui.tsx";
+import { AdminButton, PasswordInput } from "../components/ui.tsx";
 import { adminApi } from "../lib/adminApi.ts";
 import { errorMessage } from "../lib/labels.ts";
 
@@ -29,7 +29,7 @@ export function LoginPage({ onSignedIn }: { onSignedIn: () => void }) {
           <span>Trendly<small className="ml-0.5 text-xs font-medium tracking-normal text-muted">admin</small></span>
         </div>
         <h1 className="text-2xl font-bold">Sign in</h1>
-        <Input label="Password" type="password" autoComplete="current-password" required autoFocus value={password} onChange={(e) => setPassword(e.target.value)} />
+        <PasswordInput label="Password" autoComplete="current-password" required autoFocus value={password} onChange={(e) => setPassword(e.target.value)} />
         <p className="min-h-[1.2em] font-medium text-red-700">{error}</p>
         <AdminButton tone="primary" type="submit" disabled={busy}>Sign in</AdminButton>
       </form>

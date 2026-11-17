@@ -1,12 +1,11 @@
-import { createHash, randomBytes, scrypt, timingSafeEqual } from "node:crypto";
-import { promisify } from "node:util";
+import { createHash, randomBytes } from "node:crypto";
 import type { PublicUser, User } from "../../../shared/types.ts";
 import { db } from "../db/client.ts";
 import { toUser } from "../db/mappers.ts";
 import { missing, reject } from "../lib/errors.ts";
+import { checkPassword, hashPassword } from "../lib/password.ts";
 import { clean, makeId } from "../lib/text.ts";
 
-const scryptAsync = promisify(scrypt) as (password: string, salt: Buffer, length: number) => Promise<Buffer>;
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const RESET_MS = 60 * 60e3;
 const DUMMY_HASH = `scrypt$${"0".repeat(32)}$${"0".repeat(128)}`;
@@ -14,20 +13,6 @@ const DUMMY_HASH = `scrypt$${"0".repeat(32)}$${"0".repeat(128)}`;
 export const normalizeEmail = (value: unknown) => clean(value, 120).toLowerCase();
 export const isEmail = (value: string) => EMAIL.test(value);
 const sha256 = (value: string) => createHash("sha256").update(value).digest("hex");
-
-async function hashPassword(password: string): Promise<string> {
-  const salt = randomBytes(16);
-  const key = await scryptAsync(password, salt, 64);
-  return `scrypt$${salt.toString("hex")}$${key.toString("hex")}`;
-}
-
-async function checkPassword(password: string, stored: string): Promise<boolean> {
-  const [scheme, salt, key] = stored.split("$");
-  if (scheme !== "scrypt" || !salt || !key) return false;
-  const expected = Buffer.from(key, "hex");
-  const actual = await scryptAsync(password, Buffer.from(salt, "hex"), expected.length);
-  return timingSafeEqual(actual, expected);
-}
 
 const validPassword = (value: unknown) => {
   const password = typeof value === "string" ? value : "";

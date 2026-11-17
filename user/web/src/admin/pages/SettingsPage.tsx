@@ -2,7 +2,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import { LANGS } from "@shared/constants.ts";
 import type { Lang, PaymentCard, Settings } from "@shared/types.ts";
 import { useAdmin } from "../AdminContext.tsx";
-import { AdminButton, ErrorState, Input, Loading, PageHeader, Panel, Select } from "../components/ui.tsx";
+import { AdminButton, ErrorState, Input, Loading, PageHeader, Panel, PasswordInput, Select } from "../components/ui.tsx";
 import { adminApi } from "../lib/adminApi.ts";
 import { errorMessage, LANG_NAMES } from "../lib/labels.ts";
 import { useResource } from "../lib/useResource.ts";
@@ -127,6 +127,48 @@ export function SettingsPage() {
         <p className="min-h-[1.2em] font-medium text-red-700">{message}</p>
         <div><AdminButton tone="primary" type="submit" disabled={saving}>Save settings</AdminButton></div>
       </form>
+      <ChangePasswordPanel />
     </>
+  );
+}
+
+function ChangePasswordPanel() {
+  const { notify } = useAdmin();
+  const [current, setCurrent] = useState("");
+  const [next, setNext] = useState("");
+  const [repeat, setRepeat] = useState("");
+  const [message, setMessage] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setMessage("");
+    if (next.length < 8) return setMessage("New password must be at least 8 characters");
+    if (next !== repeat) return setMessage("The new passwords don't match");
+    setBusy(true);
+    try {
+      await adminApi.changePassword(current, next);
+      setCurrent("");
+      setNext("");
+      setRepeat("");
+      notify("Password changed. Other devices were signed out.");
+    } catch (failure) {
+      setMessage(errorMessage(failure));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <form noValidate onSubmit={onSubmit} className="mt-8 flex max-w-[820px] flex-col gap-4">
+      <Panel title="Admin password" bodyClassName={grid}>
+        <PasswordInput label="Current password" autoComplete="current-password" required value={current} onChange={(e) => setCurrent(e.target.value)} />
+        <div />
+        <PasswordInput label="New password" autoComplete="new-password" hint="At least 8 characters" required minLength={8} maxLength={200} value={next} onChange={(e) => setNext(e.target.value)} />
+        <PasswordInput label="Repeat new password" autoComplete="new-password" required value={repeat} onChange={(e) => setRepeat(e.target.value)} />
+      </Panel>
+      <p className="min-h-[1.2em] font-medium text-red-700">{message}</p>
+      <div><AdminButton tone="primary" type="submit" disabled={busy || !current || !next || !repeat}>Change password</AdminButton></div>
+    </form>
   );
 }

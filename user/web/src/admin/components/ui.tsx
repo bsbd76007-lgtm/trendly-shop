@@ -1,6 +1,7 @@
-import type { ButtonHTMLAttributes, InputHTMLAttributes, ReactNode, SelectHTMLAttributes, TextareaHTMLAttributes } from "react";
+import { useState, type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes, type TextareaHTMLAttributes } from "react";
 import { Link } from "react-router";
 import type { OrderStatus, PaymentStatus } from "@shared/types.ts";
+import { EyeIcon, EyeOffIcon } from "@/components/ui/icons.tsx";
 import { cn } from "@/lib/cn.ts";
 import { PAYMENT_LABELS, PAYMENT_STYLES, STATUS_LABELS, STATUS_STYLES } from "../lib/labels.ts";
 
@@ -49,6 +50,27 @@ export function Input({ label, hint, className, ...props }: FieldProps & InputHT
   return (
     <Field label={label} hint={hint} className={className}>
       <input className={controlClass} {...props} />
+    </Field>
+  );
+}
+
+export function PasswordInput({ label, hint, className, ...props }: FieldProps & Omit<InputHTMLAttributes<HTMLInputElement>, "type">) {
+  const [visible, setVisible] = useState(false);
+  return (
+    <Field label={label} hint={hint} className={className}>
+      <span className="relative flex">
+        <input type={visible ? "text" : "password"} className={cn(controlClass, "pr-10")} autoCapitalize="none" autoCorrect="off" spellCheck={false} {...props} />
+        <button
+          type="button"
+          onClick={() => setVisible(!visible)}
+          aria-label={visible ? "Hide password" : "Show password"}
+          aria-pressed={visible}
+          title={visible ? "Hide password" : "Show password"}
+          className="absolute inset-y-0 right-0 grid w-10 place-items-center text-muted hover:text-ink"
+        >
+          {visible ? <EyeOffIcon className="size-[18px]" /> : <EyeIcon className="size-[18px]" />}
+        </button>
+      </span>
     </Field>
   );
 }

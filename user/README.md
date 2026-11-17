@@ -26,6 +26,9 @@ Database scripts (in `user/api`): `db:migrate` (apply migrations), `db:migrate:d
 
 Admin panel: http://localhost:3000/admin — password in `api/.env` (`ADMIN_PASSWORD=…`, 8+ characters).
 Without `.env` the API prints a temporary password on start.
+The password can be changed in admin → Settings → Admin password (stored hashed in the `AdminAuth` table;
+from then on `ADMIN_PASSWORD` is ignored). Forgot it? Run `DELETE FROM "AdminAuth";` in the database and
+`ADMIN_PASSWORD` works again.
 
 Other scripts: `npm run typecheck` (both), `npm run build` / `npm run preview` (web).
 

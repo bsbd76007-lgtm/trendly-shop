@@ -161,6 +161,13 @@ model SupportMessage {
   @@index([chatId, at])
 }
 
+// Admin password changed from the admin panel. While this table is empty, ADMIN_PASSWORD from the env is used.
+model AdminAuth {
+  id           Int      @id @default(1)
+  passwordHash String
+  updatedAt    DateTime @updatedAt
+}
+
 model StoredFile {
   id        String   @id
   mime      String
